@@ -28,4 +28,11 @@ class Activity extends Model
             'main' => 'Основное событие',
         ];
     }
+    
+    public function rules() {
+        return [
+            //[['startDay'], 'date'],
+            [['title', 'startDay', 'endDay', 'body', 'repeat', 'main'], 'required'],
+        ];
+    }
 }
