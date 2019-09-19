@@ -17,21 +17,29 @@ use yii\widgets\ActiveForm;
            
             <?= $form->field($model, 'title') ?>
             
-            <?= $form->field($model, 'startDay')->widget(\yii\widgets\MaskedInput::className(), [
+            <? /*= $form->field($model, 'startDay')->widget(\yii\widgets\MaskedInput::className(), [
                 'mask' => "1-2-y h:s",
                 'clientOptions' => [
                     'alias' => 'datetime',
                     "placeholder" => "dd-mm-yyyy hh:mm",
                     "separator" => "-",
-                ]]); ?>
+                ]]); */ ?>
             
-            <?= $form->field($model, 'endDay')->widget(\yii\widgets\MaskedInput::className(), [
+            
+            <? /*= $form->field($model, 'endDay')->widget(\yii\widgets\MaskedInput::className(), [
                 'mask' => "1-2-y h:s",
                 'clientOptions' => [
                     'alias' => 'datetime',
                     "placeholder" => "dd-mm-yyyy hh:mm",
                     "separator" => "-",
-                ]]); ?>
+                ]]); */ ?>
+            
+            <?= $form->field($model, 'startDay')->textinput([type => 'datetime-local']) ?>
+            
+            <?= $form->field($model, 'endDay')->textinput([type => 'datetime-local']) ?>
+            
+            <?//= $form->field($model, 'startDay')->textinput([type => 'date']) ?>
+            <?//= $form->field($model, 'endDay')->textinput([type => 'date']) ?>
             
             <?= $form->field($model, 'body')->textarea(['rows' => 4]) ?>
             

@@ -7,22 +7,22 @@ use yii\base\Model;
 
 class Activity extends Model
 {
-    public $id;
+    public $activity_id;
+    public $user_id;
     public $title;
     public $startDay;
     public $endDay;
-    public $idUser;
     public $body;
     public $repeat;
     public $main;
     
     public function attributeLabels() {
         return [
-            'id' => 'ID события',
+            'activity_id' => 'ID события',
+            'user_id' => 'ID автора',
             'title' => 'Название события',
             'startDay' => 'Дата начала',
             'endDay' => 'Дата окончания',
-            'idUser' => 'ID автора',
             'body' => 'Описание события',
             'repeat' => 'Повторяющиеся событие',
             'main' => 'Основное событие',
@@ -31,8 +31,12 @@ class Activity extends Model
     
     public function rules() {
         return [
-            //[['startDay'], 'date'],
+            [['startDay', 'endDay'], 'datetime', 'format' => 'y-MM-dd\'T\'HH:mm'],
             [['title', 'startDay', 'endDay', 'body', 'repeat', 'main'], 'required'],
+            [['user_id'], 'integer'],
+            [['repeat', 'main'], 'boolean'],
         ];
     }
+    
+    
 }
