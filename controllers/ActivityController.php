@@ -6,13 +6,36 @@ use yii\web\Controller;
 use app\models\Activity;
 use yii\helpers\VarDumper;
 use yii\db\QueryBuilder;
+use yii\filters\AccessControl;
+
 
 class ActivityController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['login', 'logout', 'signup'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'edit', 'delete', 'submit'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+    
     public function actionIndex() {
-        $db = \Yii::$app->db;
-        $rows = $db->createCommand('select * from activities_tbl')->queryAll();
-        //$model = new Activity();
+        //$db = \Yii::$app->db;
+        //$query = $db->createCommand('select * from activities_tbl');
+        //$rows = $query->queryAll();
+        
+        $query = Activity::find();
+        $rows = $query->all();
+        
         return $this->render('index', [
             'activities' => $rows,
         ]);
@@ -25,8 +48,23 @@ class ActivityController extends Controller
     }
     
     public function actionCreate() {
+        
+        $model = new Activity();
+        $model->start_day = time();
+        $model->end_day = time();
+        
         return $this->render('create', [
-            'model' => new Activity(),
+            'model' => $model,
+        ]);
+    }
+    
+    public function actionEdit($id) {
+        
+        $query = Activity::find();
+        $query->where(['activity_id' => +$id]);
+        
+        return $this->render('edit', [
+            'model' => $query->one(),
         ]);
     }
     
@@ -36,6 +74,25 @@ class ActivityController extends Controller
         if ($model->load(\Yii::$app->request->post())) {
             if ($model->validate()) {
                 
+                $model->user_id = \Yii::$app->user->getID();
+                
+                if (empty($model->activity_id)) {
+                    $model->save();
+                } else {
+                    $modelAR = Activity::findOne([
+                        'activity_id' => $model->activity_id,
+                        'user_id' => $model->user_id,
+                    ]);
+                    
+                    if (is_null($modelAR)) {
+                        return \Yii::$app->getResponse()->redirect('/activity');
+                    }
+                    
+                    $modelAR->attributes = $model->attributes;
+                    $modelAR->save();
+                }
+                
+                /*
                 $params = [];
                 $query = new QueryBuilder(\Yii::$app->db);
                 $sql = $query->insert('activities_tbl', $model->attributes, $params);
@@ -45,6 +102,20 @@ class ActivityController extends Controller
                 \Yii::$app->db
                     ->createCommand($sql, $params)
                     ->execute();
+                */
+                
+                
+                
+                //$model->setIsNewRecord(!$model->activity_id);
+                //$model->setIsNewRecord(false);
+                //die(VarDumper::export($model->getIsNewRecord()));
+                //$model->save();
+                //die(VarDumper::export($model->errors));
+                
+                //$model1 = Activity::find()->where(['activity_id' => +$model->activity_id])->one();
+                //$model1->attributes = $model->attributes;
+                
+                //$model1->save();
                 
                 return $this->render('submit', [
                     'model' => $model,
@@ -54,6 +125,13 @@ class ActivityController extends Controller
                 return "Failed: " . VarDumper::export($model->errors);
             }
         }
+    }
+    
+    public function actionDelete($id) {
+        $query = Activity::find();
+        $model = $query->where(['activity_id' => +$id])->one();
+        $model->delete();
+        return \Yii::$app->getResponse()->redirect('/activity');
     }
     
 

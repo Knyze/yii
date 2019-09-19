@@ -12,9 +12,12 @@ class m190915_181248_create_users_table extends Migration
     {
         $this->createTable('users_tbl', [
             'user_id' => $this->primaryKey(),
-            'username' => $this->string(),
-            'password' => $this->string(),
-            'accessToken' => $this->tinyInteger(),
+            'username' => $this->string()->notNull(),
+            'password_hash' => $this->string()->notNull(),
+            'auth_key' => $this->string()->notNull(),
+            'access_token' => $this->string()->notNull(),
+            'created_at' => $this->integer(),
+            'updated_at' => $this->integer(),
         ]);
         
         $this->addForeignKey('activities_fk1', 'activities_tbl', 'user_id', 'users_tbl', 'user_id', 'NO ACTION');
