@@ -19,6 +19,8 @@ class m190915_163939_create_activities_table extends Migration
             'body' => $this->text(),
             'repeat' => $this->boolean(),
             'main' => $this->boolean(),
+            'created_at' => $this->integer(),
+            'updated_at' => $this->integer(),
         ]);
         
     }

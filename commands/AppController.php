@@ -14,8 +14,8 @@ class AppController extends Controller
             //'password_hash' => '',
             //'auth_key' => '',
             'access_token' => 'test',
-            'created_at' => time(),
-            'updated_at' => time(),
+            //'created_at' => time(),
+            //'updated_at' => time(),
         ]);
         
         $admin->generateAuthKey();
@@ -27,8 +27,8 @@ class AppController extends Controller
             //'password_hash' => '',
             //'auth_key' => '',
             'access_token' => 'test0',
-            'created_at' => time(),
-            'updated_at' => time(),
+            //'created_at' => time(),
+            //'updated_at' => time(),
         ]);
         
         $user->generateAuthKey();
