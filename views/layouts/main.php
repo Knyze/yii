@@ -42,6 +42,7 @@ AppAsset::register($this);
             ['label' => 'Activities', 'url' => ['/activity/']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Admin', 'url' => ['/admin']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -64,7 +65,7 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?= Yii::$app->visitedPage->run() ?>
+        <?//= Yii::$app->visitedPage->run() ?>
         <?= $content ?>
     </div>
 </div>

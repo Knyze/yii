@@ -2,11 +2,18 @@
 
 namespace app\models;
 
-
 use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
+
 
 class Activity extends ActiveRecord
 {
+    public function behaviors() {
+        return [
+            TimestampBehavior::class,
+        ];
+    }
+    
     public static function tableName() {
         return 'activities_tbl';
     }
@@ -32,6 +39,7 @@ class Activity extends ActiveRecord
             [['title', 'startDay', 'endDay', 'body', 'repeat', 'main'], 'required'],
             [['activity_id', 'user_id'], 'integer'],
             [['repeat', 'main'], 'boolean'],
+            [['start_day', 'end_day'], 'integer'],
             [['endDay'], 'validateStartEndDays'],
         ];
     }
@@ -55,7 +63,7 @@ class Activity extends ActiveRecord
     
     public function setStartDay($value) {
         $date = \DateTime::createFromFormat('Y-m-d*H:i', $value);
-        $this->start_day = $date->format('U');
+        $this->start_day = +$date->format('U');
     }
     
     public function getEndDay() {
@@ -64,7 +72,7 @@ class Activity extends ActiveRecord
     
     public function setEndDay($value) {
         $date = \DateTime::createFromFormat('Y-m-d*H:i', $value);
-        $this->end_day = $date->format('U');
+        $this->end_day = +$date->format('U');
     }
     
 }

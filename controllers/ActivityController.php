@@ -2,17 +2,17 @@
 
 namespace app\controllers;
 
+
 use yii\web\Controller;
 use app\models\Activity;
 use yii\helpers\VarDumper;
 use yii\db\QueryBuilder;
 use yii\filters\AccessControl;
-
+use yii\data\ActiveDataProvider;
 
 class ActivityController extends Controller
 {
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -34,16 +34,22 @@ class ActivityController extends Controller
         //$rows = $query->queryAll();
         
         $query = Activity::find();
-        $rows = $query->all();
-        
+
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'validatePage' => false,
+            ],
+        ]);
+
         return $this->render('index', [
-            'activities' => $rows,
+            'provider' => $provider,
         ]);
     }
     
-    public function actionView() {
-        return $this->render('submit', [
-            'model' => new Activity(),
+    public function actionView($id) {
+        return $this->render('view', [
+            'model' => Activity::findOne($id),
         ]);
     }
     
