@@ -51,6 +51,11 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/login' => 'site/login',
+                '/signup' => 'site/signup',
+                '/' => 'site/index',
+                'calendar/day/<m:\d+>/<d:\d+>' => 'calendar/day',
+                'calendar/<m:\d+>' => 'calendar/index',
             ],
         ],
     ],
