@@ -16,7 +16,7 @@ class ActivityController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                //'only' => ['login', 'logout', 'signup'],
+                'only' => ['index', 'view', 'create', 'edit', 'delete', 'submit'],
                 'rules' => [
                     [
                         'allow' => true,

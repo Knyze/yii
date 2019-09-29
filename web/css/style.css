@@ -1,0 +1,1 @@
+.monthHeader{display:grid;padding:5px;grid-template-columns:repeat(7, 1fr);grid-gap:20px}.monthHeader div{background:#ccc;text-align:center}.month{display:grid;padding:5px;grid-row-gap:10px;grid-column-gap:20px;grid-template-columns:repeat(7, 1fr)}.month .day{outline:1px solid #000000}.month .day h6{text-align:center}
