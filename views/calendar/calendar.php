@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use app\assets\CalendarAsset;
+use yii\helpers\Url;
 
 
 $firstDayWeek = $firstDayMount->format('N');
@@ -14,6 +15,11 @@ $numberOfDays = cal_days_in_month(CAL_GREGORIAN, $currentMount, $currentYear);
 CalendarAsset::register($this);
 
 $styleFirstDay = "style='grid-column-start:" . $firstDayWeek . "'";
+
+/*
+<a href="/calendar/day?m=<?= $mountOffset . '&d=' . $i ?>" <?=($i == 1) ? $styleFirstDay : '' ?>>
+<a href="<?= Url::to('/calendar/day?m=' . $mountOffset . '&d=' . $i) ?>" <?=($i == 1) ? $styleFirstDay : '' ?>>
+*/
 
 ?>
 
@@ -39,7 +45,7 @@ $styleFirstDay = "style='grid-column-start:" . $firstDayWeek . "'";
 
     <?php for($i = 1; $i <= $numberOfDays; $i++): ?>
 
-        <a href="/calendar/day?m=<?= $mountOffset . '&d=' . $i ?>" <?=($i == 1) ? $styleFirstDay : '' ?>>
+        <a href="<?= Url::to('/calendar/day/' . $mountOffset . '/' . $i) ?>" <?=($i == 1) ? $styleFirstDay : '' ?>>
             <div class="day">
                 <h6><?= $i ?></h6>
                 <?php foreach($events as $activity): ?>
